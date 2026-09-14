@@ -19,6 +19,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appState = ref.watch(tulkhuurControllerProvider);
     final backend = ref.watch(backendServiceProvider);
+    // Нэвтрэх/гарахад мэндчилгээ, sync banner шууд шинэчлэгдэнэ.
+    ref.watch(authChangesProvider);
     return Scaffold(
       body: SafeArea(
         bottom: false,

@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/application/tulkhuur_controller.dart';
 import '../../../core/services/backend_service.dart';
+import '../../../core/services/invitation_service.dart';
+import '../../../core/services/sync_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/widgets/app_back_button.dart';
 
@@ -29,6 +32,8 @@ class InviteScreen extends ConsumerStatefulWidget {
 }
 
 class _InviteScreenState extends ConsumerState<InviteScreen> {
+  bool _accepting = false;
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +41,33 @@ class _InviteScreenState extends ConsumerState<InviteScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(pendingInviteTokenProvider.notifier).remember(widget.token);
     });
+  }
+
+  /// Урилгыг хүлээн авч, үзлэгийг татаж авна.
+  Future<void> _accept() async {
+    setState(() => _accepting = true);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref
+          .read(invitationServiceProvider)
+          .acceptInvitation(widget.token);
+      final outcome = await ref.read(syncServiceProvider).sync();
+      if (!mounted) return;
+      ref.read(syncStatusProvider.notifier).report(outcome);
+      ref.read(pendingInviteTokenProvider.notifier).remember(null);
+      ref.invalidate(tulkhuurControllerProvider);
+      messenger.showSnackBar(
+        const SnackBar(content: Text(AppStrings.invitationAccepted)),
+      );
+      if (mounted) context.go('/inspections');
+    } catch (_) {
+      if (!mounted) return;
+      messenger.showSnackBar(
+        const SnackBar(content: Text(AppStrings.invitationAcceptFailed)),
+      );
+    } finally {
+      if (mounted) setState(() => _accepting = false);
+    }
   }
 
   @override
@@ -114,15 +146,18 @@ class _InviteScreenState extends ConsumerState<InviteScreen> {
               onPressed: () => context.push('/auth'),
               icon: const Icon(Icons.login_rounded),
               label: const Text(AppStrings.signIn),
+            )
+          else
+            FilledButton.icon(
+              onPressed: _accepting ? null : _accept,
+              icon: _accepting
+                  ? const SizedBox.square(
+                      dimension: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.check_circle_outline_rounded),
+              label: const Text(AppStrings.acceptInvitation),
             ),
-          const SizedBox(height: 12),
-          Text(
-            AppStrings.invitationPendingServer,
-            textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: t.textFaint),
-          ),
         ],
       ),
     );

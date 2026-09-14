@@ -43,7 +43,8 @@ class LocalDatabase implements TulkhuurRepository {
           CREATE TABLE properties (
             id TEXT PRIMARY KEY,
             payload TEXT NOT NULL,
-            updated_at INTEGER NOT NULL
+            updated_at INTEGER NOT NULL,
+            dirty INTEGER NOT NULL DEFAULT 1
           )
         ''');
         await database.execute('''
@@ -53,6 +54,7 @@ class LocalDatabase implements TulkhuurRepository {
             status TEXT NOT NULL,
             payload TEXT NOT NULL,
             updated_at INTEGER NOT NULL,
+            dirty INTEGER NOT NULL DEFAULT 1,
             FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE RESTRICT
           )
         ''');

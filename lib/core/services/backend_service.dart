@@ -28,6 +28,10 @@ class BackendService {
 
   User? get currentUser => client?.auth.currentUser;
 
+  /// Нэвтрэх, гарах зэрэг өөрчлөлтийг дагана.
+  Stream<AuthState> get authChanges =>
+      client?.auth.onAuthStateChange ?? const Stream.empty();
+
   /// Серверийн төлөвийг уншина. Холболт байхгүй, удаан эсвэл алдаатай бол
   /// `null` буцаана — апп хаагдахгүй (fail-open).
   Future<AppStatus?> fetchAppStatus() async {
@@ -164,4 +168,9 @@ class BackendService {
 
 final backendServiceProvider = Provider<BackendService>(
   (ref) => throw UnimplementedError(),
+);
+
+/// Нэвтрэлтийн төлөв өөрчлөгдөхөд дэлгэцүүд дахин зурагдана.
+final authChangesProvider = StreamProvider<AuthState>(
+  (ref) => ref.watch(backendServiceProvider).authChanges,
 );

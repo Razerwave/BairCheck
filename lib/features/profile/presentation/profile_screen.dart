@@ -20,6 +20,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final backend = ref.watch(backendServiceProvider);
+    ref.watch(authChangesProvider);
     final data = ref.watch(tulkhuurControllerProvider).value;
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.profile)),

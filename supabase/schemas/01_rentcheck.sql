@@ -328,16 +328,46 @@ create policy profiles_update_own on public.profiles
   using ((select auth.uid()) = id)
   with check ((select auth.uid()) = id);
 
+-- Анхаар: upsert (ON CONFLICT) үед PostgreSQL нь SELECT/UPDATE policy-г
+-- шалгадаг. Хэрэв policy нь мөрөө хүснэгтээс id-гаар дахин хайвал тухайн
+-- мөр хараахан харагдахгүй тул false буцаж, RLS зөрчил үүснэ. Тиймээс
+-- эзэмшлийн шалгалтыг мөрийн өөрийнх нь баганаар хийнэ.
 create policy properties_select_members on public.properties
   for select to authenticated
-  using ((select private.can_access_property(id)));
+  using (
+    created_by = (select auth.uid())
+    or exists (
+      select 1
+      from public.property_members member
+      where member.property_id = properties.id
+        and member.user_id = (select auth.uid())
+    )
+  );
 create policy properties_insert_owner on public.properties
   for insert to authenticated
   with check ((select auth.uid()) = created_by);
 create policy properties_update_managers on public.properties
   for update to authenticated
-  using ((select private.can_manage_property(id)))
-  with check ((select private.can_manage_property(id)));
+  using (
+    created_by = (select auth.uid())
+    or exists (
+      select 1
+      from public.property_members member
+      where member.property_id = properties.id
+        and member.user_id = (select auth.uid())
+        and member.member_role in ('OWNER', 'AGENT')
+    )
+  )
+  with check (
+    created_by = (select auth.uid())
+    or exists (
+      select 1
+      from public.property_members member
+      where member.property_id = properties.id
+        and member.user_id = (select auth.uid())
+        and member.member_role in ('OWNER', 'AGENT')
+    )
+  );
 create policy properties_delete_creator on public.properties
   for delete to authenticated
   using ((select auth.uid()) = created_by);
@@ -358,7 +388,11 @@ create policy property_members_delete_managers on public.property_members
 
 create policy inspections_select_participants on public.inspections
   for select to authenticated
-  using ((select private.can_access_inspection(id)));
+  using (
+    created_by = (select auth.uid())
+    or assigned_to = (select auth.uid())
+    or (select private.can_access_property(property_id))
+  );
 create policy inspections_insert_participants on public.inspections
   for insert to authenticated
   with check (
@@ -572,3 +606,23 @@ grant select, insert on public.feedback to authenticated;
 grant usage on schema public to anon;
 grant select on public.app_status to anon, authenticated;
 grant usage, select on sequence public.feedback_id_seq to authenticated;
+-- Edge function-ууд (accept-invitation, delete-account) service_role эрхээр
+-- ажилладаг. `auto_expose_new_tables = false` тохиргоо нь Supabase-ийн
+-- өгөгдмөл эрхийг хаадаг тул эдгээрийг тодорхой олгоно.
+grant usage on schema public to service_role;
+grant select, insert, update, delete on public.profiles to service_role;
+grant select, insert, update, delete on public.properties to service_role;
+grant select, insert, update, delete on public.property_members to service_role;
+grant select, insert, update, delete on public.inspections to service_role;
+grant select, insert, update, delete on public.inspection_rooms to service_role;
+grant select, insert, update, delete on public.inspection_items to service_role;
+grant select, insert, update, delete on public.inspection_photos to service_role;
+grant select, insert, update, delete on public.meter_readings to service_role;
+grant select, insert, update, delete on public.inspection_keys to service_role;
+grant select, insert, update, delete on public.revision_requests to service_role;
+grant select, insert, update, delete on public.inspection_confirmations to service_role;
+grant select, insert, update, delete on public.inspection_invitations to service_role;
+grant select, insert, update, delete on public.feedback to service_role;
+grant select, insert, update, delete on public.app_status to service_role;
+grant usage, select on sequence public.feedback_id_seq to service_role;
+

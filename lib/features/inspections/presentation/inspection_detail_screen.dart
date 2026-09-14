@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/application/tulkhuur_controller.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/services/invitation_service.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../shared/models/app_enums.dart';
 import '../../../shared/models/inspection.dart';
@@ -50,6 +53,12 @@ class InspectionDetailScreen extends ConsumerWidget {
             leading: const AppBackButton(fallbackLocation: '/inspections'),
             title: const Text(AppStrings.inspectionDetails),
             actions: [
+              if (inspection.fillMethod == FillMethod.tenant)
+                IconButton(
+                  tooltip: AppStrings.sendInvitation,
+                  onPressed: () => _shareInvitation(context, ref, inspection),
+                  icon: const Icon(Icons.person_add_alt_1_outlined),
+                ),
               if (editable)
                 IconButton(
                   tooltip: AppStrings.edit,
@@ -434,6 +443,125 @@ class _ConfirmationActions extends ConsumerWidget {
     ),
   );
 }
+
+/// Түрээслэгчийн и-мэйл рүү урьдчилан бөглөсөн захидал нээнэ.
+Future<bool> _sendInvitationEmail({
+  required String? email,
+  required String tenantName,
+  required String link,
+}) async {
+  final address = (email ?? '').trim();
+  if (address.isEmpty) return false;
+  final uri = Uri.parse(
+    'mailto:$address'
+    '?subject=${Uri.encodeComponent(AppStrings.invitationEmailSubject)}'
+    '&body=${Uri.encodeComponent(AppStrings.invitationEmailBody(tenantName, link))}',
+  );
+  if (!await canLaunchUrl(uri)) return false;
+  return launchUrl(uri, mode: LaunchMode.externalApplication);
+}
+
+/// Урилга үүсгээд хуваалцах холбоосыг харуулна.
+Future<void> _shareInvitation(
+  BuildContext context,
+  WidgetRef ref,
+  Inspection inspection,
+) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final invitations = ref.read(invitationServiceProvider);
+  if (!invitations.canInvite) {
+    messenger.showSnackBar(
+      const SnackBar(content: Text(AppStrings.invitationNeedsAuth)),
+    );
+    return;
+  }
+  try {
+    final link = await invitations.createInvitation(
+      inspectionId: inspection.id,
+      tenantName: inspection.tenantName ?? '',
+      phone: inspection.tenantPhone ?? '',
+      email: inspection.tenantEmail,
+    );
+    if (!context.mounted) return;
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(AppStrings.invitationLinkReady),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(AppStrings.invitationLinkHint),
+            const SizedBox(height: 14),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: context.tokens.surfaceMuted,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: context.tokens.border),
+              ),
+              child: SelectableText(
+                link,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+          ],
+        ),
+        actionsOverflowDirection: VerticalDirection.down,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(AppStrings.close),
+          ),
+          TextButton.icon(
+            onPressed: () async {
+              await Clipboard.setData(ClipboardData(text: link));
+              if (!context.mounted) return;
+              Navigator.of(context).pop();
+              messenger.showSnackBar(
+                const SnackBar(content: Text(AppStrings.linkCopied)),
+              );
+            },
+            icon: const Icon(Icons.copy_rounded, size: 18),
+            label: const Text(AppStrings.copyLink),
+          ),
+          FilledButton.icon(
+            style: AppTheme.dialogAction(context),
+            onPressed: () async {
+              final opened = await _sendInvitationEmail(
+                email: inspection.tenantEmail,
+                tenantName: inspection.tenantName ?? '',
+                link: link,
+              );
+              if (!context.mounted) return;
+              Navigator.of(context).pop();
+              messenger.showSnackBar(
+                SnackBar(
+                  content: Text(
+                    opened
+                        ? AppStrings.invitationEmailOpened
+                        : (inspection.tenantEmail ?? '').trim().isEmpty
+                        ? AppStrings.missingTenantEmail
+                        : AppStrings.noEmailApp,
+                  ),
+                  duration: const Duration(seconds: 4),
+                ),
+              );
+            },
+            icon: const Icon(Icons.mail_outline_rounded, size: 18),
+            label: const Text(AppStrings.sendByEmail),
+          ),
+        ],
+      ),
+    );
+  } catch (_) {
+    messenger.showSnackBar(
+      const SnackBar(content: Text(AppStrings.invitationFailed)),
+    );
+  }
+}
+
 
 class _ConfirmationRow extends StatelessWidget {
   const _ConfirmationRow({required this.title, required this.confirmed});

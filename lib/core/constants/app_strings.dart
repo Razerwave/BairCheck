@@ -94,6 +94,35 @@ abstract final class AppStrings {
   static const secureInvitationNote =
       'Урилгын холбоос нь серверийн тохиргоо хийгдсэний дараа аюулгүйгээр үүснэ.';
   static const invitationTitle = 'Урилга';
+  static const sendInvitation = 'Урилга илгээх';
+  static const invitationLinkReady = 'Урилгын холбоос бэлэн';
+  static const invitationLinkHint =
+      'Холбоосыг түрээслэгч рүү Messenger, SMS эсвэл и-мэйлээр илгээнэ үү. '
+      'Холбоос 7 хоногийн дараа хүчингүй болно.';
+  static const copyLink = 'Хуулах';
+  static const sendByEmail = 'И-мэйлээр илгээх';
+  static const sendBySms = 'SMS-ээр илгээх';
+  static const invitationEmailSubject = 'Түлхүүр — байрны үзлэгийн урилга';
+  static const invitationEmailOpened =
+      'И-мэйл програм нээгдлээ. Захидлаа илгээнэ үү.';
+  static const noEmailApp = 'И-мэйл програм олдсонгүй. Холбоосыг хуулж авна уу.';
+  static const missingTenantEmail =
+      'Түрээслэгчийн и-мэйл бүртгэгдээгүй байна. Холбоосыг хуулж илгээнэ үү.';
+  static String invitationEmailBody(String tenantName, String link) =>
+      'Сайн байна уу${tenantName.trim().isEmpty ? '' : ', $tenantName'}.\n\n'
+      'Байрны үзлэгийг бөглөхийг урьж байна. Доорх холбоосоор орж, '
+      'Түлхүүр аппаар үзлэгээ бөглөнө үү:\n\n'
+      '$link\n\n'
+      'Холбоос 7 хоногийн дараа хүчингүй болно.\n\n'
+      'Түлхүүр — байрны үзлэг, хүлээлцэх акт';
+  static const linkCopied = 'Холбоос хуулагдлаа';
+  static const invitationFailed = 'Урилга үүсгэж чадсангүй';
+  static const invitationNeedsAuth =
+      'Урилга үүсгэхийн тулд бүртгэлээрээ нэвтэрсэн байх шаардлагатай.';
+  static const acceptInvitation = 'Урилгыг хүлээн авах';
+  static const invitationAccepted = 'Урилга хүлээн авлаа. Үзлэг таны жагсаалтад нэмэгдлээ.';
+  static const invitationAcceptFailed =
+      'Урилгыг хүлээн авч чадсангүй. Холбоос хүчингүй эсвэл хугацаа нь дууссан байж болно.';
   static const invitationReceived = 'Үзлэгийн урилга ирлээ';
   static const invitationDescription =
       'Байр эзэмшигч танаас орох үеийн үзлэгийг бөглөхийг хүсжээ. '

@@ -52,7 +52,16 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
   /// `dirty` хэвээр үлдэж, дараагийн оролдлогод дахин илгээгдэнэ.
   void _syncInBackground() {
     final sync = ref.read(syncServiceProvider);
-    if (!sync.canSync) return;
+    if (!sync.canSync) {
+      unawaited(
+        (_repository as LocalDatabase).pendingChangeCount().then((pending) {
+          ref
+              .read(syncStatusProvider.notifier)
+              .report(SyncOutcome(pushed: 0, pulled: 0, pending: pending));
+        }),
+      );
+      return;
+    }
     unawaited(
       sync.sync().then((outcome) {
         ref.read(syncStatusProvider.notifier).report(outcome);
@@ -66,6 +75,8 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
       _repository.loadProperties(),
       _repository.loadInspections(),
     ]);
+    // Апп нээгдэхэд илгээгээгүй өөрчлөлт байвал сервертэй тааруулна.
+    _syncInBackground();
     return TulkhuurState(
       properties: results[0] as List<Property>,
       inspections: results[1] as List<Inspection>,

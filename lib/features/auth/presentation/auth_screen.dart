@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/application/tulkhuur_controller.dart';
 import '../../../core/services/backend_service.dart';
+import '../../../core/services/sync_service.dart';
 import '../../../shared/widgets/app_state_widgets.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
@@ -171,6 +173,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text(AppStrings.signInSuccess)));
+      _syncAfterAuth();
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)
@@ -202,6 +205,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
         ),
       );
+      _syncAfterAuth();
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -210,6 +214,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  /// Нэвтэрсний дараа локал өгөгдлийг сервертэй тааруулна.
+  void _syncAfterAuth() {
+    final sync = ref.read(syncServiceProvider);
+    if (!sync.canSync) return;
+    sync.sync().then((outcome) {
+      if (!mounted) return;
+      ref.read(syncStatusProvider.notifier).report(outcome);
+      ref.invalidate(tulkhuurControllerProvider);
+    });
   }
 
   Future<void> _signOut() async {
