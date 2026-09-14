@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID.mn.tulkhuur.app",
+        "paths": ["/invite/*"]
+      }
+    ]
+  }
+}

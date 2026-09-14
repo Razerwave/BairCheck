@@ -1,0 +1,4 @@
+storePassword=<keystore нууц үг>
+keyPassword=<key нууц үг>
+keyAlias=upload
+storeFile=/Users/<таны нэр>/rentcheck-upload.jks

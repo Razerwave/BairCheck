@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="mn">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Түлхүүр (Tulkhuur) — Байр хүлээлцэх ба үзлэгийн дижитал систем</title>
+<meta name="description" content="Түлхүүр (Tulkhuur) — түрээсийн байрны орох, гарах үеийн үзлэгийг зураг, тоолуурын заалттай баримтжуулж, хүлээлцэх актыг PDF-ээр үүсгэдэг монгол апп."/>
+<meta property="og:title" content="Түлхүүр — Байр хүлээлцэх ба үзлэгийн дижитал систем"/>
+<meta property="og:description" content="Байр хүлээлцэхэд маргаан гаргахгүйн тулд бүх зүйлийг зурагтай нь баримтжуул."/>
+<meta property="og:image" content="img/icon.png"/>
+<meta property="og:type" content="website"/>
+<link rel="icon" href="img/icon.png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors: {
+    "primary":"#0f766e", "on-primary":"#ffffff", "primary-container":"#0d9488",
+    "brand-dark":"#134e4a", "secondary":"#047857", "mint":"#34d399",
+    "text-primary":"#0F172A", "text-muted":"#475569", "text-subtle":"#94A3B8",
+    "surface":"#f8f9ff", "surface-card":"#FFFFFF", "surface-bg":"#F8FAFC",
+    "surface-container":"#e5eeff", "surface-container-low":"#eff4ff",
+    "surface-container-high":"#dce9ff", "border-subtle":"#E2E8F0",
+    "status-warning":"#F59E0B", "status-success-bg":"#ECFDF5",
+  },
+  fontFamily: { display:["Plus Jakarta Sans","sans-serif"], body:["Inter","sans-serif"] },
+}}};
+</script>
+<style>
+  html,body{margin:0;padding:0}
+  body{font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,.font-display{font-family:"Plus Jakarta Sans",sans-serif}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+</style>
+</head>
+<body class="bg-surface text-text-primary">
+
+<!-- HEADER -->
+<header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="h-20 max-w-[1200px] mx-auto px-5 lg:px-8 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3">
+      <img alt="Түлхүүр" class="h-9 w-9 rounded-xl object-contain" src="img/icon.png"/>
+      <span class="font-display font-bold text-lg text-primary tracking-tight">Түлхүүр</span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-text-muted">
+      <a class="hover:text-text-primary transition-colors" href="#bolomj">Боломж</a>
+      <a class="hover:text-text-primary transition-colors" href="#kherkhen-ajilladag">Хэрхэн ажилладаг</a>
+      <a class="hover:text-text-primary transition-colors" href="#delgets">Дэлгэц</a>
+      <a class="hover:text-text-primary transition-colors" href="#khend-zoriulav">Хэнд зориулав</a>
+    </nav>
+    <a href="#delgets" class="hidden sm:inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:bg-brand-dark transition-all">
+      <span class="material-symbols-outlined text-[18px]">play_arrow</span> Танилцах
+    </a>
+  </div>
+</header>
+
+<main class="w-full pt-20">
+
+<!-- HERO -->
+<div class="relative w-full overflow-hidden">
+  <div class="absolute top-12 left-1/2 -translate-x-1/2 w-[900px] h-[460px] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+  <section class="max-w-[1200px] mx-auto px-5 lg:px-8 pt-10 lg:pt-16 pb-14">
+    <div class="flex flex-col items-center text-center max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-card shadow-sm border border-border-subtle mb-6">
+        <span class="text-sm">🇲🇳</span>
+        <span class="text-xs font-semibold tracking-wide text-primary">Монголын түрээсийн зах зээлд зориулав</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-mint animate-pulse"></span>
+      </div>
+      <h1 class="font-display font-extrabold text-[34px] sm:text-5xl lg:text-[52px] leading-[1.08] tracking-tight max-w-3xl mb-5">
+        Байр хүлээлцэхэд <br class="hidden sm:inline"/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary-container to-secondary">маргаан гарахгүй</span>
+      </h1>
+      <p class="text-base lg:text-lg text-text-muted max-w-2xl mb-8 leading-relaxed">
+        Түлхүүр (Tulkhuur) нь орох, гарах үеийн үзлэгийг өрөө тус бүрээр нь зураг, тэмдэглэл,
+        тоолуурын заалттай баримтжуулж, хоёр талын баталгаажуулалттай хүлээлцэх актыг PDF-ээр үүсгэнэ.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-md mb-8">
+        <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary text-white font-semibold text-sm px-6 py-3.5 rounded-full shadow-md hover:bg-brand-dark transition-all hover:-translate-y-0.5" href="#kherkhen-ajilladag">
+          <span>Хэрхэн ажилладгийг үзэх</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+        <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-surface-card text-text-primary font-semibold text-sm px-6 py-3.5 rounded-full shadow-sm hover:shadow-md transition-all" href="#bolomj">
+          <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+          <span>Боломжуудтай танилцах</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-3 px-4 py-2 rounded-full bg-surface-container-low shadow-sm">
+        <div class="flex items-center gap-1.5 text-primary">
+          <span class="material-symbols-outlined text-[18px]">phone_iphone</span>
+          <span class="material-symbols-outlined text-[18px]">android</span>
+        </div>
+        <span class="text-xs font-semibold text-text-muted">Google Play болон App Store дээр удахгүй</span>
+      </div>
+    </div>
+
+    <!-- LIVE INSPECTION CARD MOCKUP -->
+    <div class="mt-16 relative max-w-4xl mx-auto">
+      <div class="absolute -inset-1 bg-gradient-to-r from-primary/20 via-mint/15 to-primary-container/20 rounded-[28px] blur-xl opacity-70"></div>
+      <div class="relative bg-surface-card rounded-[24px] shadow-xl p-6 lg:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-surface-container">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-primary shrink-0 shadow-sm">
+              <span class="material-symbols-outlined text-[26px]">apartment</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="font-display font-semibold text-lg">Time Tower</h2>
+                <span class="px-2.5 py-0.5 rounded-full bg-status-success-bg text-secondary text-[11px] font-bold">Хүлээлцэхэд бэлэн</span>
+              </div>
+              <p class="text-xs text-text-muted mt-0.5">Сүхбаатар дүүрэг · 12 давхар · 54 м² · хагас тавилгатай</p>
+            </div>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary text-[11px] font-semibold self-start">
+            <span class="w-2 h-2 rounded-full bg-primary"></span> Хүлээлцэх акт · ноорог
+          </span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
+          <div class="p-4 rounded-xl bg-surface-bg flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">chair</span>
+                <span class="text-sm font-semibold">Зочны өрөө</span>
+              </div>
+              <span class="text-secondary text-[11px] font-bold bg-status-success-bg px-2 py-0.5 rounded-full">Бүрэн</span>
+            </div>
+            <div class="space-y-2 text-xs text-text-muted">
+              <div class="flex items-center justify-between"><span>Шал</span><span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[14px]">check_circle</span>Хэвийн</span></div>
+              <div class="flex items-center justify-between"><span>Хана</span><span class="inline-flex items-center gap-1 text-status-warning font-semibold"><span class="material-symbols-outlined text-[14px]">info</span>Зурагтай (1)</span></div>
+              <div class="flex items-center justify-between"><span>Цонх</span><span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[14px]">check_circle</span>Хэвийн</span></div>
+            </div>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-bg flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[20px]">kitchen</span>
+                <span class="text-sm font-semibold">Гал тогоо</span>
+              </div>
+              <span class="text-secondary text-[11px] font-bold bg-status-success-bg px-2 py-0.5 rounded-full">Бүрэн</span>
+            </div>
+            <div class="space-y-2 text-xs text-text-muted">
+              <div class="flex items-center justify-between"><span>Угаалтуур</span><span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[14px]">check_circle</span>Хэвийн</span></div>
+              <div class="flex items-center justify-between"><span>Крант</span><span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[14px]">check_circle</span>Хэвийн</span></div>
+              <div class="flex items-center justify-between"><span>Розетка</span><span class="inline-flex items-center gap-1 text-secondary font-semibold"><span class="material-symbols-outlined text-[14px]">check_circle</span>Хэвийн</span></div>
+            </div>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container-high/60 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-primary">Тоолуурын заалт</span>
+                <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+              </div>
+              <div class="space-y-1.5 text-xs text-text-muted">
+                <div class="flex justify-between"><span>Цахилгаан:</span><span class="font-semibold text-text-primary">14,280 кВт.ц</span></div>
+                <div class="flex justify-between"><span>Халуун ус:</span><span class="font-semibold text-text-primary">038.4 м³</span></div>
+                <div class="flex justify-between"><span>Хүйтэн ус:</span><span class="font-semibold text-text-primary">112.7 м³</span></div>
+                <div class="flex justify-between"><span>Түлхүүр:</span><span class="font-semibold text-text-primary">2 ширхэг</span></div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border-subtle flex items-center justify-between">
+              <span class="flex items-center gap-1.5 text-[11px] text-primary font-medium">
+                <span class="material-symbols-outlined text-[16px]">how_to_reg</span> Хоёр тал баталгаажуулсан
+              </span>
+              <span class="px-2.5 py-1 bg-primary text-white rounded-lg text-[11px] font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">picture_as_pdf</span> PDF акт
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FEATURES -->
+<section class="w-full bg-surface-bg py-16 lg:py-20" id="bolomj">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-[11px] uppercase tracking-widest text-primary font-bold">Бүх боломжууд</span>
+      <h2 class="font-display font-bold text-[26px] lg:text-[32px] tracking-tight mt-1 mb-2">Юу хийж чадах вэ?</h2>
+      <p class="text-text-muted">Цаасан акт, нөхөрлөлийн итгэлээр биш — баримтаар.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">home_work</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">Орох, гарах үеийн үзлэг</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Өрөө бүрийг хана, шал, тааз, цонх, хаалга гэх мэт зүйлээр нь задлан шалгаж, төлөвийг тэмдэглэнэ.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-primary">
+          <span class="material-symbols-outlined text-[16px]">checklist</span><span>Бэлэн загвар хүснэгттэй</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">photo_camera</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">Зургаар баталгаажуулах</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Шалгах зүйл бүрт зураг хавсаргана. Зураг эхлээд төхөөрөмжид хадгалагдаж, сүлжээ орсны дараа илгээгдэнэ.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-primary">
+          <span class="material-symbols-outlined text-[16px]">photo_library</span><span>Зүйл бүрт олон зураг</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">pin</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">Тоолуур ба түлхүүр</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Цахилгаан, усны заалт, хүлээлгэн өгсөн түлхүүрийн тоог актад тусгана.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-primary">
+          <span class="material-symbols-outlined text-[16px]">key</span><span>Түлхүүрийн бүртгэл ба тоолуур</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">balance</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">Орох–гарахын харьцуулалт</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Гарах үеийн үзлэгийг орох үеийнхтэй автоматаар тулган шинэ гэмтэл, алга болсон зүйлийг ялгана.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-secondary">
+          <span class="material-symbols-outlined text-[16px]">compare_arrows</span><span>Автомат тулгалт</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">description</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">PDF хүлээлцэх акт</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Хоёр тал баталгаажуулсны дараа бүрэн актыг PDF болгон хэвлэх, хуваалцах боломжтой.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-primary">
+          <span class="material-symbols-outlined text-[16px]">print</span><span>Хэвлэх, хуваалцахад бэлэн</span>
+        </div>
+      </div>
+
+      <div class="bg-surface-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+        <div>
+          <div class="w-12 h-12 rounded-xl bg-surface-container-low text-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+            <span class="material-symbols-outlined text-[26px]">wifi_off</span>
+          </div>
+          <h3 class="font-display font-semibold text-lg mb-2">Офлайн ажиллана</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Шинэ барилга, подвал — сүлжээгүй газар ч үзлэг тасалдахгүй. Мэдээлэл төхөөрөмжид хадгалагдана.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-surface-container-low flex items-center gap-2 text-xs font-semibold text-primary">
+          <span class="material-symbols-outlined text-[16px]">offline_pin</span><span>Тасралтгүй ажиллагаа</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="w-full py-16 lg:py-20" id="kherkhen-ajilladag">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-[11px] uppercase tracking-widest text-primary font-bold">Хялбар үйл явц</span>
+      <h2 class="font-display font-bold text-[26px] lg:text-[32px] tracking-tight mt-1 mb-2">Хэрхэн ажилладаг вэ?</h2>
+      <p class="text-text-muted">Гурван алхам, 10 минут.</p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold font-display">1</div>
+            <span class="text-[11px] text-text-subtle uppercase font-semibold">Алхам 01</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Байраа бүртгэнэ</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Нэр, хаяг, талбай, давхар, тавилгын төрлийг оруулна. Үзлэг эхлэхэд өрөө, шалгах зүйлсийн бэлэн загвар автоматаар үүснэ.</p>
+        </div>
+        <div class="mt-8 flex items-center gap-2 text-xs text-text-muted font-medium bg-surface-bg p-3 rounded-xl">
+          <span class="material-symbols-outlined text-primary text-[18px]">add_home</span><span>1 минут зарцуулна</span>
+        </div>
+      </div>
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold font-display">2</div>
+            <span class="text-[11px] text-text-subtle uppercase font-semibold">Алхам 02</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Үзлэгээ бөглөнө</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Өрөө тус бүрийн зүйлсийн төлөвийг сонгож, зураг, тэмдэглэл нэмнэ. Түрээслэгчээр бөглүүлэх ч боломжтой.</p>
+        </div>
+        <div class="mt-8 flex items-center gap-2 text-xs text-text-muted font-medium bg-surface-bg p-3 rounded-xl">
+          <span class="material-symbols-outlined text-primary text-[18px]">rule</span><span>Өрөө бүрээр, офлайн ч болно</span>
+        </div>
+      </div>
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-6">
+            <div class="w-12 h-12 rounded-full bg-secondary text-white flex items-center justify-center font-bold font-display">3</div>
+            <span class="text-[11px] text-text-subtle uppercase font-semibold">Алхам 03</span>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Актаа үүсгэнэ</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Хоёр тал шалгаж баталгаажуулмагц хүлээлцэх акт PDF хэлбэрээр бэлэн болно. Талуудын зөвшөөрлийн бичилт актад тусна.</p>
+        </div>
+        <div class="mt-8 flex items-center gap-2 text-xs text-secondary font-medium bg-status-success-bg p-3 rounded-xl">
+          <span class="material-symbols-outlined text-[18px]">verified</span><span>Баталгаажсан PDF бэлэн</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP SCREENS -->
+<section class="w-full bg-surface-container-low/50 py-16 lg:py-20" id="delgets">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-[11px] uppercase tracking-widest text-primary font-bold">Аппын харагдац</span>
+      <h2 class="font-display font-bold text-[26px] lg:text-[32px] tracking-tight mt-1 mb-2">Аппын дэлгэц</h2>
+      <p class="text-text-muted">Монгол хэлээр, цэвэрхэн, ойлгомжтой.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-[300px] bg-text-primary p-2.5 rounded-[38px] shadow-2xl">
+          <img src="img/home.png" alt="Нүүр дэлгэц" class="w-full rounded-[30px] block"/>
+        </div>
+        <h4 class="font-display font-bold text-sm mt-5">Нүүр — байр, үзлэгийн тойм</h4>
+        <p class="text-xs text-text-muted text-center max-w-xs mt-1.5">Бүртгэлтэй байр, явагдаж буй үзлэг, төлөвүүдийг нэг дор хянана</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-[300px] bg-text-primary p-2.5 rounded-[38px] shadow-2xl">
+          <img src="img/editor.png" alt="Үзлэг бөглөх дэлгэц" class="w-full rounded-[30px] block"/>
+        </div>
+        <h4 class="font-display font-bold text-sm mt-5">Үзлэг — өрөө, зүйл бүрээр</h4>
+        <p class="text-xs text-text-muted text-center max-w-xs mt-1.5">Шал, хана, тааз, тавилга тус бүрийг зураг, тэмдэглэлээр баримтжуулна</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-[300px] bg-text-primary p-2.5 rounded-[38px] shadow-2xl">
+          <img src="img/property.png" alt="Байрны дэлгэрэнгүй" class="w-full rounded-[30px] block"/>
+        </div>
+        <h4 class="font-display font-bold text-sm mt-5">Байр — мэдээлэл, түүх</h4>
+        <p class="text-xs text-text-muted text-center max-w-xs mt-1.5">Байрны үзүүлэлт болон өмнөх үзлэгүүдийн түүхийг харна</p>
+      </div>
+    </div>
+    <p class="text-center text-[11px] text-text-subtle mt-8">Бодит аппаас авсан дэлгэцийн зураг</p>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="w-full py-16 lg:py-20" id="khend-zoriulav">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-[11px] uppercase tracking-widest text-primary font-bold">Хэрэглэгчид</span>
+      <h2 class="font-display font-bold text-[26px] lg:text-[32px] tracking-tight mt-1 mb-2">Хэнд зориулав?</h2>
+      <p class="text-text-muted">Түрээсийн харилцаанд оролцогч тал бүрт шударга, ил тод шийдэл.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-border-subtle">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-surface-container text-primary flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[28px]">real_estate_agent</span>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-surface-container-low text-primary text-[11px] font-semibold">Байр түрээслүүлэгчдэд</span>
+          <h3 class="font-display font-semibold text-xl mt-4 mb-3">Байр эзэмшигч</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Түрээслэгч гарахад "ийм байсан уу, үгүй юу" гэж маргалдахгүй. Бүх зүйл зурагтай, огноотой тул эд хөрөнгөө баталгаатай хамгаална.</p>
+        </div>
+        <ul class="mt-6 pt-6 border-t border-surface-container-low space-y-2.5 text-sm">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>Эвдрэл, гэмтлийг тодорхой ялгана</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>Хүлээлцэхэд цаг хэмнэнэ</span></li>
+        </ul>
+      </div>
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-border-subtle relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full pointer-events-none"></div>
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-status-success-bg text-secondary flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[28px]">person_check</span>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-status-success-bg text-secondary text-[11px] font-semibold">Оршин суугчдад</span>
+          <h3 class="font-display font-semibold text-xl mt-4 mb-3">Түрээслэгч</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Орохоос өмнө байсан гэмтлийг баримтжуулснаар барьцаа мөнгөө шударгаар буцаан авна. Өөрийн хариуцаагүй асуудалд төлбөр төлөхгүй.</p>
+        </div>
+        <ul class="mt-6 pt-6 border-t border-surface-container-low space-y-2.5 text-sm">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>Барьцаа мөнгөний нотолгоо</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>Хоёр талын баталгаажуулалт</span></li>
+        </ul>
+      </div>
+      <div class="bg-surface-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-all flex flex-col justify-between border border-border-subtle">
+        <div>
+          <div class="w-12 h-12 rounded-2xl bg-surface-container text-primary flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[28px]">business_center</span>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-surface-container-low text-primary text-[11px] font-semibold">Мэргэжилтнүүдэд</span>
+          <h3 class="font-display font-semibold text-xl mt-4 mb-3">Үл хөдлөхийн агент</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Олон байрны үзлэгийг нэг дороос удирдаж, үйлчлүүлэгчдээ мэргэжлийн акт өгнө. Байгууллагын нэр хүнд, итгэлцлийг өндөрт өргөнө.</p>
+        </div>
+        <ul class="mt-6 pt-6 border-t border-surface-container-low space-y-2.5 text-sm">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>Олон объектыг нэг дороос</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[18px]">check</span><span>PDF акт экспорт</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="max-w-[1200px] mx-auto px-5 lg:px-8 pb-16 lg:pb-20">
+  <div class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-brand-dark via-primary to-primary-container text-white p-8 lg:p-14 shadow-xl">
+    <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full border-[30px] border-white/10 pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-[11px] font-semibold mb-5">
+        <span class="material-symbols-outlined text-sm">rocket_launch</span><span>Удахгүй нээлтээ хийнэ</span>
+      </div>
+      <h2 class="font-display font-bold text-[26px] lg:text-[32px] mb-3 leading-tight">Байр хүлээлцэх үйл явцаа дижитал болгоорой</h2>
+      <p class="text-white/90 mb-8 leading-relaxed">Цаас, маргаанаас татгалзаж, зураг, тоолуурын заалттай баримтжуулсан актаар эд хөрөнгөө найдвартай хамгаалаарай.</p>
+      <div class="flex flex-col sm:flex-row items-center gap-3">
+        <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-primary font-semibold text-sm px-6 py-3.5 rounded-full shadow-md hover:bg-surface-bg transition-all" href="#bolomj">
+          <span class="material-symbols-outlined text-[20px]">notifications_active</span><span>Нээлтийн талаар мэдэх</span>
+        </a>
+        <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 text-white font-semibold text-sm px-6 py-3.5 rounded-full border border-white/20 hover:bg-white/20 transition-all" href="mailto:hatnaa.cs@gmail.com">
+          <span>Бидэнтэй холбогдох</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="w-full bg-surface-container-low">
+  <div class="max-w-[1200px] mx-auto px-5 lg:px-8 py-14">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div class="max-w-md">
+        <div class="flex items-center gap-2 mb-3">
+          <img alt="Түлхүүр" class="h-7 w-7 rounded-lg object-contain" src="img/icon.png"/>
+          <span class="font-display font-bold text-lg text-primary tracking-tight">Түлхүүр</span>
+        </div>
+        <p class="text-sm text-text-muted">Монголын түрээсийн зах зээлд зориулсан байр хүлээлцэх, үзлэгийн дижитал систем</p>
+      </div>
+      <nav class="flex flex-wrap items-center gap-6 text-xs font-semibold text-text-muted">
+        <a class="hover:text-text-primary transition-colors" href="privacy-policy.html">Нууцлалын бодлого</a>
+        <a class="hover:text-text-primary transition-colors" href="privacy-policy.html#delete">Бүртгэл устгах</a>
+        <a class="hover:text-text-primary transition-colors" href="mailto:hatnaa.cs@gmail.com">Холбоо барих</a>
+      </nav>
+    </div>
+    <div class="mt-10 pt-6 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="text-[11px] text-text-subtle">© 2026 Түлхүүр</p>
+      <p class="text-[11px] text-text-subtle">Аппын баталгаажуулалт нь талуудын зөвшөөрлийн бичилт бөгөөд цахим гарын үсэг биш.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "mn.tulkhuur.app",
+      "sha256_cert_fingerprints": [
+        "D7:01:CF:75:EA:F9:61:1D:83:70:45:22:9A:6B:F6:BE:CC:58:E4:D3:87:82:91:EB:1B:AC:13:4A:36:A2:DF:C4"
+      ]
+    }
+  }
+]
