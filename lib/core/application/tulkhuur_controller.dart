@@ -9,6 +9,7 @@ import '../../shared/models/property.dart';
 import '../constants/app_strings.dart';
 import '../services/backend_service.dart';
 import '../services/local_database.dart';
+import '../services/invitation_service.dart';
 import '../services/sync_service.dart';
 
 class TulkhuurState {
@@ -50,6 +51,15 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
 
   /// Хадгалсны дараа сервертэй тааруулна. Алдаа гарвал өөрчлөлт локал дээр
   /// `dirty` хэвээр үлдэж, дараагийн оролдлогод дахин илгээгдэнэ.
+  /// Нөгөө талд и-мэйл мэдэгдэл илгээнэ (сервер тохируулагдсан үед).
+  void _notify(String inspectionId, String event) {
+    unawaited(
+      ref
+          .read(invitationServiceProvider)
+          .notifyInspectionEvent(inspectionId: inspectionId, event: event),
+    );
+  }
+
   void _syncInBackground() {
     final sync = ref.read(syncServiceProvider);
     if (!sync.canSync) {
@@ -306,6 +316,7 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
         updatedAt: DateTime.now(),
       ),
     );
+    _notify(inspectionId, 'submitted');
   }
 
   Future<void> addMeterReading({
@@ -384,6 +395,7 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
         updatedAt: DateTime.now(),
       ),
     );
+    _notify(inspectionId, 'approved');
   }
 
   Future<void> requestRevision({
@@ -405,6 +417,7 @@ class TulkhuurController extends AsyncNotifier<TulkhuurState> {
         updatedAt: DateTime.now(),
       ),
     );
+    _notify(inspectionId, 'revision_requested');
   }
 
   Future<void> confirm({

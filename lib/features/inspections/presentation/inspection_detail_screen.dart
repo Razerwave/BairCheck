@@ -56,7 +56,12 @@ class InspectionDetailScreen extends ConsumerWidget {
               if (inspection.fillMethod == FillMethod.tenant)
                 IconButton(
                   tooltip: AppStrings.sendInvitation,
-                  onPressed: () => _shareInvitation(context, ref, inspection),
+                  onPressed: () => _shareInvitation(
+                    context,
+                    ref,
+                    inspection,
+                    propertyName: property?.name ?? '',
+                  ),
                   icon: const Icon(Icons.person_add_alt_1_outlined),
                 ),
               if (editable)
@@ -465,8 +470,9 @@ Future<bool> _sendInvitationEmail({
 Future<void> _shareInvitation(
   BuildContext context,
   WidgetRef ref,
-  Inspection inspection,
-) async {
+  Inspection inspection, {
+  String propertyName = '',
+}) async {
   final messenger = ScaffoldMessenger.of(context);
   final invitations = ref.read(invitationServiceProvider);
   if (!invitations.canInvite) {
@@ -529,19 +535,34 @@ Future<void> _shareInvitation(
           FilledButton.icon(
             style: AppTheme.dialogAction(context),
             onPressed: () async {
-              final opened = await _sendInvitationEmail(
-                email: inspection.tenantEmail,
-                tenantName: inspection.tenantName ?? '',
-                link: link,
-              );
+              final email = (inspection.tenantEmail ?? '').trim();
+              // 1. Сервер талаас илгээхийг оролдоно (тохируулагдсан бол).
+              final sentByServer = email.isEmpty
+                  ? false
+                  : await invitations.sendInvitationEmail(
+                      email: email,
+                      link: link,
+                      tenantName: inspection.tenantName ?? '',
+                      propertyName: propertyName,
+                    );
+              // 2. Үгүй бол утасны и-мэйл програмаар.
+              final opened = sentByServer
+                  ? false
+                  : await _sendInvitationEmail(
+                      email: inspection.tenantEmail,
+                      tenantName: inspection.tenantName ?? '',
+                      link: link,
+                    );
               if (!context.mounted) return;
               Navigator.of(context).pop();
               messenger.showSnackBar(
                 SnackBar(
                   content: Text(
-                    opened
+                    sentByServer
+                        ? AppStrings.invitationEmailSent
+                        : opened
                         ? AppStrings.invitationEmailOpened
-                        : (inspection.tenantEmail ?? '').trim().isEmpty
+                        : email.isEmpty
                         ? AppStrings.missingTenantEmail
                         : AppStrings.noEmailApp,
                   ),

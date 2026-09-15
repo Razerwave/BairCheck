@@ -56,6 +56,54 @@ class InvitationService {
     return '$baseUrl/$token';
   }
 
+  /// Урилгыг сервер талаас и-мэйлээр илгээхийг оролдоно.
+  ///
+  /// Сервер дээр и-мэйлийн үйлчилгээ тохируулаагүй бол `false` буцаана —
+  /// тэр үед апп нь утасны и-мэйл програмаар илгээхэд шилжинэ.
+  Future<bool> sendInvitationEmail({
+    required String email,
+    required String link,
+    String tenantName = '',
+    String propertyName = '',
+  }) async {
+    final client = _backend.client;
+    if (client == null || _backend.currentUser == null) return false;
+    try {
+      final response = await client.functions.invoke(
+        'send-invitation',
+        body: {
+          'email': email,
+          'link': link,
+          'tenantName': tenantName,
+          'propertyName': propertyName,
+        },
+      );
+      return response.status == 200;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Үзлэгийн төлөв өөрчлөгдсөнийг нөгөө талд и-мэйлээр мэдэгдэнэ.
+  ///
+  /// Мэдэгдэл бол нэмэлт үйлчилгээ — амжилтгүй болсон ч үндсэн урсгалыг
+  /// тасалдуулахгүй.
+  Future<void> notifyInspectionEvent({
+    required String inspectionId,
+    required String event,
+  }) async {
+    final client = _backend.client;
+    if (client == null || _backend.currentUser == null) return;
+    try {
+      await client.functions.invoke(
+        'notify-inspection',
+        body: {'inspection_id': inspectionId, 'event': event},
+      );
+    } catch (_) {
+      // Мэдэгдэл хүрэхгүй байх нь үзлэгийн урсгалд саад болохгүй.
+    }
+  }
+
   /// Урилгыг хүлээн авна — сервер талд эрх олгогдоно.
   Future<String> acceptInvitation(String token) async {
     final client = _backend.client;

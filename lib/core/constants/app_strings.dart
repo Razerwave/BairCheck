@@ -103,6 +103,7 @@ abstract final class AppStrings {
   static const sendByEmail = 'И-мэйлээр илгээх';
   static const sendBySms = 'SMS-ээр илгээх';
   static const invitationEmailSubject = 'Түлхүүр — байрны үзлэгийн урилга';
+  static const invitationEmailSent = 'Урилга и-мэйлээр илгээгдлээ.';
   static const invitationEmailOpened =
       'И-мэйл програм нээгдлээ. Захидлаа илгээнэ үү.';
   static const noEmailApp = 'И-мэйл програм олдсонгүй. Холбоосыг хуулж авна уу.';
@@ -186,7 +187,8 @@ abstract final class AppStrings {
   static const submitInspectionQuestion = 'Үзлэгийг шалгуулахаар илгээх үү?';
   static const submitInspectionDescription =
       'Илгээсний дараа байр эзэмшигч эсвэл агент мэдээллийг шалгана.';
-  static const submittedForReview = 'Үзлэг шалгуулахаар бэлэн боллоо.';
+  static const submittedForReview =
+      'Үзлэг шалгуулахаар илгээгдлээ. Сүлжээнд холбогдсоны дараа нөгөө тал апп дээрээ харах боломжтой болно.';
   static const approve = 'Зөвшөөрөх';
   static const requestNewPhoto = 'Дахин зураг авах хүсэлт';
   static const requestInformationEdit = 'Мэдээлэл засуулах';
